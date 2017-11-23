@@ -1,3 +1,5 @@
+`ifndef _main
+`define _main
 `timescale 1ns / 1ps
 `include "MUX32_4x1.v"
 `include "PC.v"
@@ -294,3 +296,4 @@ module ring_counter(clock, Q, reset);
 			//else Q <= Q/2;
 		end
 endmodule
+`endif

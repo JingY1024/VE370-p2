@@ -1,28 +1,30 @@
+`ifndef _im
+`define _im
 `timescale 1ns / 1ps
 //////////////////////////////////////////////////////////////////////////////////
-// Company: 
-// Engineer: 
-// 
-// Create Date:    16:03:02 11/18/2017 
-// Design Name: 
-// Module Name:    InstructionMemory 
-// Project Name: 
-// Target Devices: 
-// Tool versions: 
-// Description: 
+// Company:
+// Engineer:
 //
-// Dependencies: 
+// Create Date:    16:03:02 11/18/2017
+// Design Name:
+// Module Name:    InstructionMemory
+// Project Name:
+// Target Devices:
+// Tool versions:
+// Description:
 //
-// Revision: 
+// Dependencies:
+//
+// Revision:
 // Revision 0.01 - File Created
-// Additional Comments: 
+// Additional Comments:
 //
 //////////////////////////////////////////////////////////////////////////////////
 module Instruction_memory(ReadAddress, Instruction);
 	input [31:0] ReadAddress;
 	output [31:0] Instruction;
 	reg [31:0] memory[0:29];
-	
+
 	initial begin
 		memory[0] 	= 32'b00100000000010000000000000100000; //addi $t0, $zero, 0x20
 		memory[1] 	= 32'b00100000000010010000000000100111; //addi $t1, $zero, 0x27
@@ -55,8 +57,8 @@ module Instruction_memory(ReadAddress, Instruction);
 		memory[28] 	= 32'b00100000000010010000000000000011; //addi $t1, $0, 3
 		memory[29] 	= 32'b00001000000000000000000000011111; //j EXIT
 	end
-	
+
 	assign Instruction=memory[ReadAddress/4];
 
 endmodule
-
+`endif

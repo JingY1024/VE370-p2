@@ -1,21 +1,23 @@
+`ifndef _alu_control
+`define _alu_control
 `timescale 1ns / 1ps
 //////////////////////////////////////////////////////////////////////////////////
-// Company: 
-// Engineer: 
-// 
-// Create Date:    16:48:20 11/14/2017 
-// Design Name: 
-// Module Name:    ALUcontrol 
-// Project Name: 
-// Target Devices: 
-// Tool versions: 
-// Description: 
+// Company:
+// Engineer:
 //
-// Dependencies: 
+// Create Date:    16:48:20 11/14/2017
+// Design Name:
+// Module Name:    ALUcontrol
+// Project Name:
+// Target Devices:
+// Tool versions:
+// Description:
 //
-// Revision: 
+// Dependencies:
+//
+// Revision:
 // Revision 0.01 - File Created
-// Additional Comments: 
+// Additional Comments:
 //
 //////////////////////////////////////////////////////////////////////////////////
 module ALUcontrol(funct,ALUOp,ALUcontrol);
@@ -36,3 +38,5 @@ module ALUcontrol(funct,ALUOp,ALUcontrol);
 			//else ALUcontrol<=4'b0100; //j
 		end
 endmodule
+
+`endif

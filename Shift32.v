@@ -1,21 +1,23 @@
+`ifndef _s32
+`define _s32
 `timescale 1ns / 1ps
 //////////////////////////////////////////////////////////////////////////////////
-// Company: 
-// Engineer: 
-// 
-// Create Date:    16:36:55 11/15/2017 
-// Design Name: 
-// Module Name:    Shift32 
-// Project Name: 
-// Target Devices: 
-// Tool versions: 
-// Description: 
+// Company:
+// Engineer:
 //
-// Dependencies: 
+// Create Date:    16:36:55 11/15/2017
+// Design Name:
+// Module Name:    Shift32
+// Project Name:
+// Target Devices:
+// Tool versions:
+// Description:
 //
-// Revision: 
+// Dependencies:
+//
+// Revision:
 // Revision 0.01 - File Created
-// Additional Comments: 
+// Additional Comments:
 //
 //////////////////////////////////////////////////////////////////////////////////
 module Shift32(in, out);
@@ -25,3 +27,4 @@ module Shift32(in, out);
 	assign out = in << 2;
 
 endmodule
+`endif

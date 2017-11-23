@@ -1,24 +1,26 @@
+`ifndef _idex
+`define _idex
 `timescale 1ns / 1ps
 //////////////////////////////////////////////////////////////////////////////////
-// Company: 
-// Engineer: 
-// 
-// Create Date:    16:12:17 11/15/2017 
-// Design Name: 
-// Module Name:    IDEX 
-// Project Name: 
-// Target Devices: 
-// Tool versions: 
-// Description: 
+// Company:
+// Engineer:
 //
-// Dependencies: 
+// Create Date:    16:12:17 11/15/2017
+// Design Name:
+// Module Name:    IDEX
+// Project Name:
+// Target Devices:
+// Tool versions:
+// Description:
 //
-// Revision: 
+// Dependencies:
+//
+// Revision:
 // Revision 0.01 - File Created
-// Additional Comments: 
+// Additional Comments:
 //
 //////////////////////////////////////////////////////////////////////////////////
-module IDEX(clock, reset, flush, 
+module IDEX(clock, reset, flush,
 	regOut1ID, regOut2ID, InstructionID, PC4ID, InstructionExtID,
 	RegDstID, RegWriteID, MemReadID, MemWriteID, MemtoRegID, ALUSrcID, ALUOpID,
 	regOut1EX, regOut2EX, InstructionEX, InstructionExtEX,
@@ -34,7 +36,7 @@ module IDEX(clock, reset, flush,
 	input [31:0] PC4ID;
 	input [31:0] InstructionExtID;
 	//control signal
-	
+
 	input RegDstID;
 	input RegWriteID;
 	input MemReadID;
@@ -42,12 +44,12 @@ module IDEX(clock, reset, flush,
 	input MemtoRegID;
 	input ALUSrcID;
 	input [2:0] ALUOpID;
-	
+
 	output reg [31:0] regOut1EX;
 	output reg [31:0] regOut2EX;
 	output reg [31:0] InstructionEX;
 	output reg [31:0] InstructionExtEX;
-	
+
 	output reg RegDstEX;
 	output reg RegWriteEX;
 	output reg MemReadEX;
@@ -56,8 +58,8 @@ module IDEX(clock, reset, flush,
 	output reg ALUSrcEX;
 	output reg [2:0] ALUOpEX;
 
-	
-	initial begin 
+
+	initial begin
 		regOut1EX <= 32'b0;
 		regOut2EX <= 32'b0;
 		InstructionEX <= 32'b0;
@@ -69,9 +71,9 @@ module IDEX(clock, reset, flush,
 		MemtoRegEX <= 1'b0;
 		ALUSrcEX <= 1'b0;
 		ALUOpEX <= 3'b0;
-		
+
 	end
-	
+
 	always @(posedge clock) begin
 		if (reset || flush) begin
 			regOut1EX <= 32'b0;
@@ -101,6 +103,7 @@ module IDEX(clock, reset, flush,
 		end
 
 	end
-	
-	
+
+
 endmodule
+`endif

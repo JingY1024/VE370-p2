@@ -1,7 +1,9 @@
+`ifndef _regs
+`define _regs
 `timescale 1ns / 1ps
 
-module registers(ReadRegister1, ReadRegister2, WriteRegister, WriteData, 
-		RegWrite, ReadData1, ReadData2, 
+module registers(ReadRegister1, ReadRegister2, WriteRegister, WriteData,
+		RegWrite, ReadData1, ReadData2,
 		clk,rs0,rs1,rs2,rs3,rs4,rs5,rs6,rs7,rt0,rt1,rt2,rt3,rt4,rt5,rt6,rt7,rt8,rt9
 );
 	input RegWrite, clk;
@@ -51,3 +53,5 @@ module registers(ReadRegister1, ReadRegister2, WriteRegister, WriteData,
 	assign rt8=register[24];
 	assign rt9=register[25];
 endmodule
+
+`endif

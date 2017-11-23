@@ -1,21 +1,23 @@
+`ifndef _ifid
+`define _ifid
 `timescale 1ns / 1ps
 //////////////////////////////////////////////////////////////////////////////////
-// Company: 
-// Engineer: 
-// 
-// Create Date:    15:57:16 11/15/2017 
-// Design Name: 
-// Module Name:    IFID 
-// Project Name: 
-// Target Devices: 
-// Tool versions: 
-// Description: 
+// Company:
+// Engineer:
 //
-// Dependencies: 
+// Create Date:    15:57:16 11/15/2017
+// Design Name:
+// Module Name:    IFID
+// Project Name:
+// Target Devices:
+// Tool versions:
+// Description:
 //
-// Revision: 
+// Dependencies:
+//
+// Revision:
 // Revision 0.01 - File Created
-// Additional Comments: 
+// Additional Comments:
 //
 //////////////////////////////////////////////////////////////////////////////////
 module IFID(clk, reset, InstructionIF, PC4IF, InstructionID, PC4ID, hold, flush);
@@ -25,7 +27,7 @@ module IFID(clk, reset, InstructionIF, PC4IF, InstructionID, PC4ID, hold, flush)
 	input	clk, reset, flush, hold;
 	output reg [31:0] InstructionID;
 	output reg [31:0] PC4ID;
-	
+
 	//reg flag;
 
 	initial begin
@@ -38,7 +40,7 @@ module IFID(clk, reset, InstructionIF, PC4IF, InstructionID, PC4ID, hold, flush)
 		//if (hold) begin
 		//	flag <= 1'b1;
 		//end
-		//else 
+		//else
 		if (reset || (flush && ~hold)) begin
 			PC4ID <= 32'b0;
 			InstructionID <= 32'b0;
@@ -57,3 +59,4 @@ module IFID(clk, reset, InstructionIF, PC4IF, InstructionID, PC4ID, hold, flush)
 	end
 
 endmodule
+`endif

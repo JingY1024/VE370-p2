@@ -1,21 +1,23 @@
+`ifndef _alu
+`define _alu
 `timescale 1ns / 1ps
 //////////////////////////////////////////////////////////////////////////////////
-// Company: 
-// Engineer: 
-// 
-// Create Date:    16:44:26 11/14/2017 
-// Design Name: 
-// Module Name:    ALU 
-// Project Name: 
-// Target Devices: 
-// Tool versions: 
-// Description: 
+// Company:
+// Engineer:
 //
-// Dependencies: 
+// Create Date:    16:44:26 11/14/2017
+// Design Name:
+// Module Name:    ALU
+// Project Name:
+// Target Devices:
+// Tool versions:
+// Description:
 //
-// Revision: 
+// Dependencies:
+//
+// Revision:
 // Revision 0.01 - File Created
-// Additional Comments: 
+// Additional Comments:
 //
 //////////////////////////////////////////////////////////////////////////////////
 module ALU(ReadData1, ReadData2, ALUcontrol, ALUresult);
@@ -23,7 +25,7 @@ module ALU(ReadData1, ReadData2, ALUcontrol, ALUresult);
 	input [31:0] ReadData2;
 	input [3:0] ALUcontrol;
 	output reg [31:0] ALUresult;
-	
+
 always @(ALUcontrol or ReadData1 or ReadData2)
 	begin
 		if(ALUcontrol==4'b0000)//add,addi,lw,sw
@@ -40,3 +42,4 @@ always @(ALUcontrol or ReadData1 or ReadData2)
 			ALUresult<=0;
 	end
 endmodule
+`endif

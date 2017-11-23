@@ -1,26 +1,28 @@
+`ifndef _hazard_detect
+`define _hazard_detect
 `timescale 1ns / 1ps
 //////////////////////////////////////////////////////////////////////////////////
-// Company: 
-// Engineer: 
-// 
-// Create Date:    18:59:19 11/19/2017 
-// Design Name: 
-// Module Name:    HazardDetect 
-// Project Name: 
-// Target Devices: 
-// Tool versions: 
-// Description: 
+// Company:
+// Engineer:
 //
-// Dependencies: 
+// Create Date:    18:59:19 11/19/2017
+// Design Name:
+// Module Name:    HazardDetect
+// Project Name:
+// Target Devices:
+// Tool versions:
+// Description:
 //
-// Revision: 
+// Dependencies:
+//
+// Revision:
 // Revision 0.01 - File Created
-// Additional Comments: 
+// Additional Comments:
 //
 //////////////////////////////////////////////////////////////////////////////////
-module HazardDetect(ifBranch, MemReadEX, MemReadMEM, RegWriteEX, 
-		WriteRegEX, WriteRegMEM, InsID, 
-		PC_hold, IDEX_flush, IFID_hold 
+module HazardDetect(ifBranch, MemReadEX, MemReadMEM, RegWriteEX,
+		WriteRegEX, WriteRegMEM, InsID,
+		PC_hold, IDEX_flush, IFID_hold
 );
 
 	input ifBranch;
@@ -29,7 +31,7 @@ module HazardDetect(ifBranch, MemReadEX, MemReadMEM, RegWriteEX,
 	input [31:0] InsID;
 
 	output reg PC_hold, IDEX_flush, IFID_hold;
-	
+
 	always @ * begin
 		// load use detect
 		if (MemReadEX && ( WriteRegEX == InsID[25:21] || WriteRegEX == InsID[20:16])) begin
@@ -57,3 +59,4 @@ module HazardDetect(ifBranch, MemReadEX, MemReadMEM, RegWriteEX,
 	end
 
 endmodule
+`endif
