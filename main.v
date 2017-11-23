@@ -41,69 +41,62 @@
 //
 //////////////////////////////////////////////////////////////////////////////////
 module main(clk, reset,
-		PC_out, rs0, rs1, rs2, rs3, rs4, rs5, rs6, rs7, rt0, rt1, rt2, rt3, rt4, rt5, rt6, rt7, rt8, rt9,
-		InsPC, InsID, InsEX,
-		ReadData1ID, ReadData1EX,
-		ReadData2ID, ReadData2EX,
-		RegDstID, RegWriteID, MemReadID, MemtoRegID, MemWriteID, ALUSrcID,
-		ALUOpID,
-		RegDstEX, RegWriteEX, MemReadEX, MemtoRegEX, MemWriteEX,
-		ALUOpEX,
-		RegWriteMEM, MemReadMEM, MemtoRegMEM, MemWriteMEM, ALUSrcMEM,
-		ALUOpMEM,
-		RegWriteWB, MemtoRegWB,
-		ALUResult, WriteRegister, WriteData,
-		ALUin1, ALUin2, ALUin2temp,
-		forwardA, forwardB, forwardABranch, forwardBBranch,
-		ResultWB, ReadDataWB,
-		AddressMEM,
-		AddressSelect
+		a, b, c, d, e, f, g, A, clock, test
 );
 
-	input clk, reset;
+	input clk, reset, clock;
+	input [4:0] test;
+	output reg a, b, c, d, e, f, g;
+	output [3:0] A;
 
-	output [31:0] PC_out, rs0, rs1, rs2, rs3, rs4, rs5, rs6, rs7, rt0, rt1, rt2, rt3, rt4, rt5, rt6, rt7, rt8, rt9;
-	output [31:0] InsPC, InsID, InsEX;
-	output [31:0] ReadData1ID, ReadData1EX;
-	output [31:0] ReadData2ID, ReadData2EX;
+	initial begin
+		a=0;b=0;c=0;d=0;e=0;f=0;g=0;
+		//A=4'b1111;
+	end
 
-	output RegDstID, RegWriteID, MemReadID, MemtoRegID, MemWriteID, ALUSrcID;
-	output [2:0] ALUOpID;
-	output RegDstEX, RegWriteEX, MemReadEX, MemtoRegEX, MemWriteEX;
-	output [2:0] ALUOpEX;
-	output RegWriteMEM, MemReadMEM, MemtoRegMEM, MemWriteMEM, ALUSrcMEM;
-	output [2:0] ALUOpMEM;
-	output RegWriteWB, MemtoRegWB;
+
+	wire [31:0] PC_out, rs0, rs1, rs2, rs3, rs4, rs5, rs6, rs7, rt0, rt1, rt2, rt3, rt4, rt5, rt6, rt7, rt8, rt9;
+	wire [31:0] InsPC, InsID, InsEX;
+	wire [31:0] ReadData1ID, ReadData1EX;
+	wire [31:0] ReadData2ID, ReadData2EX;
+
+	wire RegDstID, RegWriteID, MemReadID, MemtoRegID, MemWriteID, ALUSrcID;
+	wire [2:0] ALUOpID;
+	wire RegDstEX, RegWriteEX, MemReadEX, MemtoRegEX, MemWriteEX;
+	wire [2:0] ALUOpEX;
+	wire RegWriteMEM, MemReadMEM, MemtoRegMEM, MemWriteMEM, ALUSrcMEM;
+	wire [2:0] ALUOpMEM;
+	wire RegWriteWB, MemtoRegWB;
 
 	wire [31:0] NextPCAdd, NextPCAddID;
 	wire [31:0] BranchAddress, JumpAddress;
-	output [1:0] AddressSelect;
+	wire [1:0] AddressSelect;
 	wire [31:0] add_inPC, add_outPC;
 
 	wire [31:0] extInsID, extInsEX;
 
 	wire [31:0] BranchAdd;
 	wire [27:0] JumpAddTemp;
-	output [4:0] WriteRegister;
-	output [31:0] WriteData;
+	wire [4:0] WriteRegister;
+	wire [31:0] WriteData;
 	wire ifJump;
 
 	assign PC_out = add_outPC;
 
 
-	output [31:0] ALUin1, ALUin2, ALUin2temp;
-	output [1:0] forwardA, forwardB, forwardABranch, forwardBBranch;
+	wire [31:0] ALUin1, ALUin2, ALUin2temp;
+	wire [1:0] forwardA, forwardB, forwardABranch, forwardBBranch;
 	wire [3:0] ALUControl;
-	output [31:0] ALUResult;
+	wire [31:0] ALUResult;
 	wire [4:0] WriteRegEX, WriteRegMEM;
 	wire IFID_flush, IFID_hold, IDEX_flush, PC_hold;
 
-	output [31:0] AddressMEM;
+	wire [31:0] AddressMEM;
 	wire [31:0] WriteDataMEM;
 	wire [31:0] ReadDataMEM;
 
-	output [31:0] ReadDataWB;
-	output [31:0] ResultWB;
+	wire [31:0] ReadDataWB;
+	wire [31:0] ResultWB;
 	wire [31:0] BranchCheck1, BranchCheck2;
 
 
@@ -206,15 +199,17 @@ module main(clk, reset,
 	MUX32 MUXresult(ResultWB, ReadDataWB, MemtoRegWB, WriteData);
 
 	// on board
+	wire clock_1;
+	reg [31:0] Q2;
+	reg [3:0] Q;
 
-	divider_500 M1 (clock, Q1, reset, clock_1);
+	divider_500 M1 (clock, reset, clock_1);
 
-	ring_counter M3 (clock_1, Q5, reset);
+	ring_counter M3 (clock_1, A, reset);
 
-	always @(*)
-		A <= Q5;
 
-	always @(A) begin
+
+	always @(*) begin
 		if (test == 5'b00000) Q2 <= PC_out;
 		else if (test == 5'b01000) Q2 <= rt0;
 		else if (test == 5'b01001) Q2 <= rt1;
@@ -236,39 +231,38 @@ module main(clk, reset,
 		else if (test == 5'b11001) Q2 <= rt9;
 	end
 
-	always @ (A) begin
+	always @ (*) begin
 		if (A == 4'b1110) Q <= Q2[3:0];
 		else if (A == 4'b1101) Q <= Q2[7:4];
 		else if (A == 4'b1011) Q <= Q2[11:8];
 		else if (A == 4'b0111) Q <= Q2[15:12];
 	end
 
-	always @ (Q)
+	always @ (*) begin
 		  if (Q == 4'b0000) begin a<=0;b<=0;c<=0;d<=0;e<=0;f<=0;g<=1;  end
-	else if (Q == 4'b0001) begin a<=1;b<=0;c<=0;d<=1;e<=1;f<=1;g<=1;  end
-	else if (Q == 4'b0010) begin a<=0;b<=0;c<=1;d<=0;e<=0;f<=1;g<=0;  end
-	else if (Q == 4'b0011) begin a<=0;b<=0;c<=0;d<=0;e<=1;f<=1;g<=0;  end
-	else if (Q == 4'b0100) begin a<=1;b<=0;c<=0;d<=1;e<=1;f<=0;g<=0;  end
-	else if (Q == 4'b0101) begin a<=0;b<=1;c<=0;d<=0;e<=1;f<=0;g<=0;  end
-	else if (Q == 4'b0110) begin a<=0;b<=1;c<=0;d<=0;e<=0;f<=0;g<=0;  end
-	else if (Q == 4'b0111) begin a<=0;b<=0;c<=0;d<=1;e<=1;f<=1;g<=1;  end
-	else if (Q == 4'b1000) begin a<=0;b<=0;c<=0;d<=0;e<=0;f<=0;g<=0;  end
-	else if (Q == 4'b1001) begin a<=0;b<=0;c<=0;d<=0;e<=1;f<=0;g<=0;  end
-	else if (Q == 4'b1010) begin a<=0;b<=0;c<=0;d<=1;e<=0;f<=0;g<=0;  end
-	else if (Q == 4'b1011) begin a<=1;b<=1;c<=0;d<=0;e<=0;f<=0;g<=0;  end
-	else if (Q == 4'b1100) begin a<=0;b<=1;c<=1;d<=0;e<=0;f<=0;g<=1;  end
-	else if (Q == 4'b1101) begin a<=1;b<=0;c<=0;d<=0;e<=0;f<=1;g<=0;  end
-	else if (Q == 4'b1110) begin a<=0;b<=1;c<=1;d<=0;e<=0;f<=0;g<=0;  end
-	else begin a<=0;b<=0;c<=0;d<=0;e<=1;f<=1;g<=1; end
-
+			else if (Q == 4'b0001) begin a<=1;b<=0;c<=0;d<=1;e<=1;f<=1;g<=1;  end
+			else if (Q == 4'b0010) begin a<=0;b<=0;c<=1;d<=0;e<=0;f<=1;g<=0;  end
+			else if (Q == 4'b0011) begin a<=0;b<=0;c<=0;d<=0;e<=1;f<=1;g<=0;  end
+			else if (Q == 4'b0100) begin a<=1;b<=0;c<=0;d<=1;e<=1;f<=0;g<=0;  end
+			else if (Q == 4'b0101) begin a<=0;b<=1;c<=0;d<=0;e<=1;f<=0;g<=0;  end
+			else if (Q == 4'b0110) begin a<=0;b<=1;c<=0;d<=0;e<=0;f<=0;g<=0;  end
+			else if (Q == 4'b0111) begin a<=0;b<=0;c<=0;d<=1;e<=1;f<=1;g<=1;  end
+			else if (Q == 4'b1000) begin a<=0;b<=0;c<=0;d<=0;e<=0;f<=0;g<=0;  end
+			else if (Q == 4'b1001) begin a<=0;b<=0;c<=0;d<=0;e<=1;f<=0;g<=0;  end
+			else if (Q == 4'b1010) begin a<=0;b<=0;c<=0;d<=1;e<=0;f<=0;g<=0;  end
+			else if (Q == 4'b1011) begin a<=1;b<=1;c<=0;d<=0;e<=0;f<=0;g<=0;  end
+			else if (Q == 4'b1100) begin a<=0;b<=1;c<=1;d<=0;e<=0;f<=0;g<=1;  end
+			else if (Q == 4'b1101) begin a<=1;b<=0;c<=0;d<=0;e<=0;f<=1;g<=0;  end
+			else if (Q == 4'b1110) begin a<=0;b<=1;c<=1;d<=0;e<=0;f<=0;g<=0;  end
+			else begin a<=0;b<=0;c<=0;d<=0;e<=1;f<=1;g<=1; end
+	end
 
 endmodule
 
-module divider_500(clock,Q,reset,clock_out);
+module divider_500(clock,reset,clock_out);
 	input clock, reset;
-	output [25:0]Q;
 	output clock_out;
-	reg [25:0]Q;
+	reg [25:0] Q;
 	reg clock_out1;
 
 	initial begin Q <= 0; end
@@ -300,4 +294,3 @@ module ring_counter(clock, Q, reset);
 			//else Q <= Q/2;
 		end
 endmodule
-
